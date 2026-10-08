@@ -144,7 +144,7 @@ const DEMO=false; /* true: los recordatorios de cobranza se abren hacia TU núme
    horario      -> solo se pide asistencia desde 30 min antes hasta 60 min después de la clase reservada, y no se reservan clases de hoy que ya empezaron.
    soloProElite -> el plan Básico no incluye clases grupales (así lo dice la sección Planes). */
 const REGLAS={horario:false,soloProElite:false};
-const SUPA={https://sozbcdqbglnwluhgsfdb.supabase.co:'',sb_publishable_tfW_Y9zh5zVp3npDj9FnEg_j0hh79x3:''}; /* Supabase: pega aquí la Project URL y la anon key. Vacío = solo este navegador */
+const SUPA={url:'https://sozbcdqbglnwluhgsfdb.supabase.co',key:'sb_publishable_tfW_Y9zh5zVp3npDj9FnEg_j0hh79x3'}; /* Supabase: Project URL y clave publicable */
 const DBON=!!(SUPA.url&&SUPA.key);let JWT=null;
 const ic=n=>`<svg class="i" aria-hidden="true"><use href="#i-${n}"/></svg>`,KI={Registrados:'users',Ingresos:'trend',Asistencia:'check',Interesados:'mail'};
 /* Cabeceras para Supabase. Las claves nuevas (sb_publishable_...) NO son JWT: van solo en 'apikey'.
@@ -158,7 +158,7 @@ async function sbLogin(p){try{const r=await fetch(SUPA.url+'/auth/v1/token?grant
 const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
 const $=s=>document.querySelector(s),e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 /* Envía un correo por FormSubmit (necesita internet y abrir la página desde Netlify/GitHub). */
-async function mail(asunto,datos){try{const r=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(AE),{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:asunto,_captcha:'false',_template:'table',_honey:'',...datos})});return r.ok}catch{return false}}
+async function mail(asunto,datos){try{const r=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(CORREO),{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:asunto,_captcha:'false',_template:'table',_honey:'',...datos})});return r.ok}catch{return false}}
 const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)};
 let sd=11;const R=()=>(sd=sd*16807%2147483647)/2147483647,P=a=>a[Math.floor(R()*a.length)];
 const PR={Básico:99,Pro:169,Élite:299},SEDES=[['Miraflores',180],['San Isidro',150],['Surco',120],['Trujillo Centro',140],['Víctor Larco',110]];
